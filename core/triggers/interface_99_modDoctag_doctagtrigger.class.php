@@ -117,7 +117,7 @@ class InterfaceDoctagtrigger
         // Data and type of action are stored into $object and $action
         // Users
         
-        exit('action');
+    //    exit($action);
         
         if ($action == 'USER_LOGIN') {
             dol_syslog(

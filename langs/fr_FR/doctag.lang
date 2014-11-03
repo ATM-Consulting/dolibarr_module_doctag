@@ -1,2 +1,4 @@
-ModuleXXXXXXName = Name
-ModuleXXXXXXDesc = Descripion
+Module104280Name = Document Tags
+Module104280Desc = Permet de gérer des tags sur vos documents
+TagsOfThis=Les Tags de ce document
+SeparatedByComma=Séparé par des virgules
