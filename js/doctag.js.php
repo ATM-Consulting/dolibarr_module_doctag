@@ -15,7 +15,7 @@ function docTag_set_link() {
 			filename = $(this).text();
 			if(filename == '') filename = $(this).find('img').attr('alt');
 			
-			url = "javascript:docTag_pop('<?php echo dol_buildpath('/doctag/tag.php',1) ?>?tag="+ window.btoa(url)+"',filename)";
+			url = "javascript:docTag_pop('<?php echo dol_buildpath('/doctag/tag.php',1) ?>?tagcode="+ window.btoa(url)+"',filename)";
 			link = '&nbsp;<a href="'+url+'"><?php echo img_object($langs->trans('Tagit'),'doctag@doctag') ?></a>';
 			
 			$(this).after(link);
