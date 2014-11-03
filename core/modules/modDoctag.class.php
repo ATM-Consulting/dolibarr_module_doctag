@@ -80,7 +80,7 @@ class modDoctag extends DolibarrModules
         // for specific css file (eg: /doctag/css/doctag.css.php)
         $this->module_parts = array(
             // Set this to 1 if module has its own trigger directory
-            'triggers' => 1,
+            'triggers' => 1
             // Set this to 1 if module has its own login method directory
             //'login' => 0,
             // Set this to 1 if module has its own substitution function file
@@ -94,10 +94,10 @@ class modDoctag extends DolibarrModules
             // Set this to relative path of css if module has its own css file
             //'css' => '/doctag/css/mycss.css.php',
             // Set here all hooks context managed by module
-            //'hooks' => array('hookcontext1','hookcontext2')
+            ,'hooks' => array('searchform')
             // Set here all workflow context managed by module
             //'workflow' => array('order' => array('WORKFLOW_ORDER_AUTOCREATE_INVOICE'))
-            'js' => array('/doctag/js/doctag.js.php')
+            ,'js' => array('/doctag/js/doctag.js.php')
         );
 
         // Data directories to create when module is enabled.

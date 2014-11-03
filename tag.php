@@ -18,6 +18,7 @@
 		$tag->set_values($_POST);
 		$tag->save($ATMdb);
 		
+		setEventMessage($langs->Trans('TagsSaved'));
 	}
 	
 	
@@ -26,7 +27,13 @@
 	
 	
 	
-?>	<div class="fiche">
+?>	
+<script type="text/javascript" src="<?php echo dol_buildpath('/includes/jquery/js/jquery-latest.min.js',1) ?>"></script>
+<script type="text/javascript" src="<?php echo dol_buildpath('/includes/jquery/plugins/jnotify/jquery.jnotify.min.js',1) ?>"></script>
+<script type="text/javascript" src="<?php echo dol_buildpath('/core/js/jnotify.js',1) ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo dol_buildpath('/includes/jquery/plugins/jnotify/jquery.jnotify-alt.min.css',1) ?>" />
+
+<div class="fiche">
 			<div class="tabBar">
 				<form name="formtag" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 					<input type="hidden" name="action" value="SAVE" />			
