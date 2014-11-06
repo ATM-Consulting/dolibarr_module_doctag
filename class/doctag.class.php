@@ -8,6 +8,7 @@ class TDocTag extends TObjetStd {
 		parent::set_table(MAIN_DB_PREFIX.'doctag');
 		parent::add_champs('title,tags,tagcode','type=chaine;index;');
 		parent::add_champs('description','type=texte;');
+		parent::add_champs('url','type=chaine;');
 				
 		parent::_init_vars();
 		parent::start();

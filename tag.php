@@ -5,14 +5,38 @@
 	
 	define('OBJETSTD_MAKETABLEFORME', true);
 	
-	$tagcode=GETPOST('tagcode');
+	$tag64=GETPOST('tag64');
+	if(!empty($tag64)) {
+		
+		$url = base64_decode($tag64);
+		$TUrl = parse_url($url);
+		
+		$TParam = array();
+		parse_str($TUrl['query'], $TParam);
+		
+		$modulepart = $TParam['modulepart'];
+		$file = $TParam['file'];
+		
+		if($modulepart=='facture')$modulepart='invoice';
+		elseif($modulepart=='commande')$modulepart='order';
+		elseif($modulepart=='produit')$modulepart='product';
+		
+		$tagcode = md5($modulepart.'='.$file );
+		
+	}
+	else{
+		$tagcode = GETPOST('tagcode');
+		
+	}
+	
 	if(empty($tagcode) ) exit('ErrorOfTag');
 	
 	$ATMdb=new TPDOdb;
-	
 	$tag=new TDocTag;
-	$tag->loadByTagcode($ATMdb, $tagcode);
-	
+	if($tag->loadByTagcode($ATMdb, $tagcode)){
+		$url = $tag->url;
+	}
+		
 	if(GETPOST('action')=='SAVE') {
 		
 		$tag->set_values($_POST);
@@ -38,6 +62,7 @@
 				<form name="formtag" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 					<input type="hidden" name="action" value="SAVE" />			
 					<input type="hidden" name="tagcode" value="<?php echo $tagcode ?>" />			
+					<input type="hidden" name="url" value="<?php echo $url ?>" />			
 					<table class="border" width="100%">
 						<tr>
 							<td><?php echo $langs->trans('Title') ?></td><td><input type="text" name="title" value="<?php echo $tag->title ?>" size="80" /></td>
