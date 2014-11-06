@@ -437,9 +437,15 @@ class modDoctag extends DolibarrModules
         $sql = array();
 
         $result = $this->loadTables();
+	
+	define('INC_FROM_DOLIBARR',true);
+	dol_include_once('/doctag/config.php');
+	dol_include_once('/doctag/class/doc.class.php');
 
-        $url = dol_buildpath('/doctag/script/create-maj-base.php', 2);
-        file_get_contents($url);
+	$PDOdb=new TPDOdb;
+
+	$o=new TDocTag($db);
+	$o->init_db_by_vars($PDOdb);
 
         return $this->_init($sql, $options);
     }

@@ -3,7 +3,6 @@
 	require('config.php');
 	$langs->load('doctag@doctag');
 	
-	define('OBJETSTD_MAKETABLEFORME', true);
 	
 	$tag64=GETPOST('tag64');
 	if(!empty($tag64)) {
