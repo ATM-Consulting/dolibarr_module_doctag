@@ -22,7 +22,7 @@
 		elseif($modulepart=='produit')$modulepart='product';
 		
 		$tagcode = md5($modulepart.'='.$file );
-		
+	//	var_dump($TParam);
 	}
 	else{
 		$tagcode = GETPOST('tagcode');

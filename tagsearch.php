@@ -25,7 +25,7 @@
 			
 			$l=new TListviewTBS('list-tag');
 			
-			$sql="SELECT tagcode,title,description,tags
+			$sql="SELECT tagcode,url,title,description,tags
 			FROM ".MAIN_DB_PREFIX."doctag 
 			WHERE 1 ".natural_search(array('title','tags'), $tagsearch)." ";
 			
@@ -39,7 +39,7 @@
 					'page'=>(isset($_REQUEST['page']) ? $_REQUEST['page'] : 1)
 					,'nbLine'=>'30'
 				)
-				,'hide'=>array('tagcode')
+				,'hide'=>array('tagcode','url')
 				,'title'=>array(
 					'title'=>$langs->trans('Title')
 					,'tags'=>$langs->trans('Tags')
@@ -56,7 +56,7 @@
 					,'order_up'=>img_picto('','1uparrow.png', '', 0)
 				)
 				,'eval'=>array(
-					'title'=>'_showMyDoc("@tagcode@", "@val@")'
+					'title'=>'_showMyDoc("@url@", "@val@")'
 				)
 				,'orderBy'=>$TOrder));
 			
@@ -74,8 +74,10 @@
 	
 	llxFooter();
 	
-function _showMyDoc($code, $title) {
+function _showMyDoc($url, $title) {
+global $langs;	
 	
+	if(empty(trim($title))) $title=$langs->trans('NullTitle');
 	
-	return '<a href="'.base64_decode($code).'">'.$title.'</a>';
+	return '<a href="'.$url.'">'.$title.'</a>';
 }
