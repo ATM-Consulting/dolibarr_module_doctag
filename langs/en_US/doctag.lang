@@ -1,2 +1,7 @@
-ModuleXXXXXXName = Name
-ModuleXXXXXXDesc = Descripion
+Module104280Name = Document Tags
+Module104280Desc = Allow you manage tags on your documents and attachments
+TagsOfThis=Tags for this document
+SeparatedByComma=Separated by comma
+TagsSaved=Datas saved
+TagSearch=Search on tag or title
+AbricotNotFound=This module a free module Abricot not found
