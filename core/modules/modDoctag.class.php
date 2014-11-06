@@ -106,7 +106,7 @@ class modDoctag extends DolibarrModules
 
         // Config pages. Put here list of php pages
         // stored into doctag/admin directory, used to setup module.
-        $this->config_page_url = array("doctag_setup.php@doctag");
+        $this->config_page_url = false; //array("doctag_setup.php@doctag");
 
         // Dependencies
         // List of modules id that must be enabled if this module is enabled
