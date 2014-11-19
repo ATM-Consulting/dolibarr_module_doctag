@@ -16,7 +16,7 @@ class ActionsDoctag
         	
 			$langs->load('doctag@doctag');
 			
-			$res = '<div class="menu_titre"> '.img_object($langs->trans('Tagit'),'doctag@doctag').' '.$langs->trans('Tags').'<br /></div>';
+			$res = '<div class="menu_titre"> '.img_object($langs->trans('Tagit'),'doctag@doctag').' '.$langs->trans('DocumentTags').'<br /></div>';
 
 			
 			$res.='<form method="post" action="'.dol_buildpath('/doctag/tagsearch.php',1).'">
