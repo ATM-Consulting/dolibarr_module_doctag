@@ -77,7 +77,11 @@
 function _showMyDoc($url, $title) {
 global $langs;	
 	
-	if(empty(trim($title))) $title=$langs->trans('NullTitle');
+	if(empty($title)) {
+		$title=$langs->trans('NullTitle');
+	}
 	
-	return '<a href="'.$url.'">'.$title.'</a>';
+	$ret = '<a href="'.$url.'">'.$title.'</a>';
+
+	return $ret;
 }
