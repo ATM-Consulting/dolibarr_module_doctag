@@ -14,11 +14,22 @@ function docTag_set_link() {
 		if(url.indexOf('document.php?')!=-1 && url.indexOf('action=delete')==-1  && url.indexOf('file=')!=-1) {
 			filename = $(this).text();
 			if(filename == '') filename = $(this).find('img').attr('alt');
-			
-			url = "javascript:docTag_pop('<?php echo dol_buildpath('/doctag/tag.php',1) ?>?tag64="+ window.btoa(url)+"','"+filename+"')";
-			link = '&nbsp;<a href="'+url+'"><?php echo img_object($langs->trans('Tagit'),'doctag@doctag') ?></a>';
+			var tag64 = window.btoa(url);
+			url = "javascript:docTag_pop('<?php echo dol_buildpath('/doctag/tag.php',1) ?>?tag64="+ tag64 +"','"+filename+"')";
+			link = '&nbsp;<a href="'+url+'" tag64="'+tag64+'"><?php echo img_object($langs->trans('Tagit'),'doctag@doctag') ?></a>';
 			
 			$(this).after(link);
+			
+			$.ajax({
+			    url : "<?php echo dol_buildpath('/doctag/script/interface.php?get=tag64exist&tag64=',1) ?>"+tag64
+			}).done(function(nb_tag) {
+			    if(nb_tag>0) {
+			        
+			        $img = $('a[tag64="'+tag64+'"]').find("img");
+			        $img.attr("src","<?php echo  img_picto('', 'object_doctag_blue@doctag', '', false, 1, 1) ?>");
+			        $img.attr("title",nb_tag+" tag(s)");
+			    }
+			});
 		}
 		
 	});

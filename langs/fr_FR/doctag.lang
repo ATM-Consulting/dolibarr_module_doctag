@@ -7,3 +7,6 @@ TagSearch=Recherche sur tags ou titre
 AbricotNotFound=Ce module requière le module gratuit Abricot
 NullTitle=Document sans titre
 DocumentTags=Document Tags
+Deleted=fichier supprimé
+TagDeleted=Tag supprimé
+DeleteIt=Supprimer ce tag ?

@@ -53,3 +53,25 @@ function doctagAdminPrepareHead()
 
     return $head;
 }
+function docTagParseUrl($url) {
+    $TUrl = parse_url($url);
+    
+    $TParam = array();
+    parse_str($TUrl['query'], $TParam);
+    
+    $modulepart = $TParam['modulepart'];
+    $file = $TParam['file'];
+    
+    return array($modulepart,$file);
+}
+function getMD5By64($tag64,$url='') {
+    if(empty($url)) $url = base64_decode($tag64);
+    list($modulepart,$file) = docTagParseUrl($url);
+    
+    if($modulepart=='facture')$modulepart='invoice';
+    elseif($modulepart=='commande')$modulepart='order';
+    elseif($modulepart=='produit')$modulepart='product';
+    
+    return md5($modulepart.'='.$file );
+    
+}

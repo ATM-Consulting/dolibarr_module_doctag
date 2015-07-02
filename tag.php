@@ -6,44 +6,31 @@
 	
 	$tag64=GETPOST('tag64');
 	if(!empty($tag64)) {
-		
-		$url = base64_decode($tag64);
-		$TUrl = parse_url($url);
-		
-		$TParam = array();
-		parse_str($TUrl['query'], $TParam);
-		
-		$modulepart = $TParam['modulepart'];
-		$file = $TParam['file'];
-		
-		if($modulepart=='facture')$modulepart='invoice';
-		elseif($modulepart=='commande')$modulepart='order';
-		elseif($modulepart=='produit')$modulepart='product';
-		
-		$tagcode = md5($modulepart.'='.$file );
-	//	var_dump($TParam);
+		$tagcode = getMD5By64($tag64);
 	}
 	else{
 		$tagcode = GETPOST('tagcode');
-		
 	}
 	
 	if(empty($tagcode) ) exit('ErrorOfTag');
 	
-	$ATMdb=new TPDOdb;
+	$PDOdb=new TPDOdb;
 	$tag=new TDocTag;
-	if($tag->loadByTagcode($ATMdb, $tagcode)){
+	if($tag->loadByTagcode($PDOdb, $tagcode)){
 		$url = $tag->url;
 	}
 		
 	if(GETPOST('action')=='SAVE') {
 		
 		$tag->set_values($_POST);
-		$tag->save($ATMdb);
+		$tag->save($PDOdb);
 		
 		setEventMessage($langs->Trans('TagsSaved'));
 	}
-	
+    else if(GETPOST('action')=='DELETE') {
+        $tag->delete($PDOdb);
+        setEventMessage($langs->trans('TagDeleted') );
+    }
 	
 	top_htmlhead('', $langs->Trans('TagsOfThis'), 1, 0, array(), array());
 	main_area($langs->Trans('TagsOfThis'));
@@ -55,7 +42,17 @@
 <script type="text/javascript" src="<?php echo dol_buildpath('/includes/jquery/plugins/jnotify/jquery.jnotify.min.js',1) ?>"></script>
 <script type="text/javascript" src="<?php echo dol_buildpath('/core/js/jnotify.js',1) ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo dol_buildpath('/includes/jquery/plugins/jnotify/jquery.jnotify-alt.min.css',1) ?>" />
+<script type="text/javascript">
+function deleteIt() {
+    
 
+    if(window.confirm('<?php echo $langs->transnoentities('DeleteIt'); ?>') ) {
+        
+        document.location.href="?action=DELETE&tagcode=<?php echo $tagcode ?>";
+        
+    }
+}    
+</script>
 <div class="fiche">
 			<div class="tabBar">
 				<form name="formtag" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
@@ -80,8 +77,9 @@
 					<div class="tabsAction">
 						
 						<div class="inline-block divButAction">
-							<input type="submit" class="butAction" value="<?php echo $langs->trans('Save') ?>" />
-						</div>
+						  <input type="button" class="butActionDelete" value="<?php echo $langs->trans('delete') ?>" onclick="deleteIt();" />&nbsp;&nbsp;
+                          <input type="submit" class="butAction" value="<?php echo $langs->trans('Save') ?>" />
+                        </div>
 						
 					</div>
 					

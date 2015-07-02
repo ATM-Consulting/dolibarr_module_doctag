@@ -2,6 +2,8 @@
 
 	require('config.php');
 	
+    dol_include_once('/core/lib/files.lib.php');
+    
 	llxHeader('', $langs->Trans('TagsOfThis'));
 	
 	$tagsearch = GETPOST('tag');
@@ -75,13 +77,25 @@
 	llxFooter();
 	
 function _showMyDoc($url, $title) {
-global $langs;	
+global $langs,$conf;	
 	
 	if(empty($title)) {
 		$title=$langs->trans('NullTitle');
 	}
 	
-	$ret = '<a href="'.$url.'">'.$title.'</a>';
+	list($modulepart,$file) = docTagParseUrl($url);
+    
+    if(!dol_is_file($conf->$modulepart->dir_output.'/'.$file) ) {
+        $ret = $title.' '.img_picto($langs->trans('Deleted'), 'editdelete');
+        
+        $tagcode = getMD5By64('', $url);
+        $ret.='<a href="javascript:docTag_pop(\''.dol_buildpath('/doctag/tag.php?tagcode='.$tagcode,1).'\',\''.$title.'\')">'.img_object($langs->trans('Tagit'),'doctag@doctag').'</a>';
+    }
+    else{
+        $ret = '<a href="'.$url.'">'.$title.'</a>';    
+    }
+	
+    
 
 	return $ret;
 }

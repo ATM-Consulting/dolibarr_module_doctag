@@ -7,6 +7,36 @@ class ActionsDoctag
       *  @param      action             current action (if set). Generally create or edit or null 
       *  @return       void 
       */
+    function deleteFile($parameters, &$object, &$action, $hookmanager) {
+        
+        global $langs,$db;
+        
+        if (in_array('fileslib',explode(':',$parameters['context']))) 
+        {
+          /*      define('INC_FROM_DOLIBARR',true);
+                dol_include_once('/doctag/config.php');       
+            
+          
+                $res = 0;
+                $tag64=GETPOST('tag64');
+                if(!empty($tag64)) {
+                    $tagcode = getMD5By64($tag64);
+                    
+                    $PDOdb=new TPDOdb;
+                    $tag=new TDocTag;
+                    if($tag->loadByTagcode($PDOdb, $tagcode)){
+                        
+                        $res = count($tag->TTag);
+    
+                    }
+                }
+            */
+        }
+        
+        return 0;
+    }
+      
+      
     function printSearchForm($parameters, &$object, &$action, $hookmanager) {
     	
 		global $langs,$db;
