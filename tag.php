@@ -19,20 +19,33 @@
 	if($tag->loadByTagcode($PDOdb, $tagcode)){
 		$url = $tag->url;
 	}
-		
-	if(GETPOST('action')=='SAVE') {
+
+    if(empty($url) && !empty($tag64)) $url = base64_decode($tag64);
+
+    $action = 	GETPOST('action');	
+	if($action=='SAVE') {
 		
 		$tag->set_values($_POST);
 		$tag->save($PDOdb);
 		
 		setEventMessage($langs->Trans('TagsSaved'));
 	}
-    else if(GETPOST('action')=='DELETE') {
+    else if($action=='DELETE') {
+        
         $tag->delete($PDOdb);
-        setEventMessage($langs->trans('TagDeleted') );
+        
+        top_htmlhead('', $langs->Trans('TagsOfThis'), 1, 0, array(), array());
+        main_area($langs->Trans('TagsOfThis'));
+   //  setEventMessage($langs->trans('TagDeleted') );
+       
+        echo '<div class="info">'.$langs->trans('TagDeleted').'</div>';
+    
+        llxFooter();
+        
+        exit;
     }
 	
-	top_htmlhead('', $langs->Trans('TagsOfThis'), 1, 0, array(), array());
+    top_htmlhead('', $langs->Trans('TagsOfThis'), 1, 0, array(), array());
 	main_area($langs->Trans('TagsOfThis'));
 	
 	

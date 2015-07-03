@@ -21,7 +21,7 @@
 				</form>
 	<?php
 	
-		if(!empty($tagsearch)) {
+		if(true /*!empty($tagsearch)*/) {
 			
 			$ATMdb=new TPDOdb;
 			
@@ -85,7 +85,7 @@ global $langs,$conf;
 	
 	list($modulepart,$file) = docTagParseUrl($url);
     
-    if(!dol_is_file($conf->$modulepart->dir_output.'/'.$file) ) {
+    if(!empty($conf->$modulepart->dir_output) && !dol_is_file($conf->$modulepart->dir_output.'/'.$file) ) {
         $ret = $title.' '.img_picto($langs->trans('Deleted'), 'editdelete');
         
         $tagcode = getMD5By64('', $url);
