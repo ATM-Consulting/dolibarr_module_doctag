@@ -23,6 +23,11 @@
             $tag->save($PDOdb);  
         }
 	}
+    else{
+        if(empty($url) && !empty($tag64)) {
+            $url = base64_decode($tag64);
+        }
+    }
 
     
 
