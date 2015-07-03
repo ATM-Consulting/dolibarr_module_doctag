@@ -29,7 +29,7 @@
 			
 			$sql="SELECT tagcode,url,title,description,tags
 			FROM ".MAIN_DB_PREFIX."doctag 
-			WHERE 1 ".natural_search(array('title','tags'), $tagsearch)." ";
+			WHERE 1 ".natural_search(array('title','tags','description'), $tagsearch)." ";
 			
 			$TOrder = array('title'=>'DESC');
 			if(isset($_REQUEST['orderDown']))$TOrder = array($_REQUEST['orderDown']=>'DESC');
@@ -58,7 +58,7 @@
 					,'order_up'=>img_picto('','1uparrow.png', '', 0)
 				)
 				,'eval'=>array(
-					'title'=>'_showMyDoc("@url@", "@val@")'
+					'title'=>'_showMyDoc("@url@", "@val@","@tagcode@")'
 				)
 				,'orderBy'=>$TOrder));
 			
@@ -76,26 +76,34 @@
 	
 	llxFooter();
 	
-function _showMyDoc($url, $title) {
+function _showMyDoc($url, $title, $tagcode) {
 global $langs,$conf;	
 	
 	if(empty($title)) {
 		$title=$langs->trans('NullTitle');
 	}
 	
-	list($modulepart,$file) = docTagParseUrl($url);
-    
-    if(!empty($conf->$modulepart->dir_output) && !dol_is_file($conf->$modulepart->dir_output.'/'.$file) ) {
-        $ret = $title.' '.img_picto($langs->trans('Deleted'), 'editdelete');
+    if(empty($url)){
+       $ret = $title.' '.img_picto($langs->trans('Deleted'), 'editdelete');
+       $ret .='<a href="javascript:docTag_pop(\''.dol_buildpath('/doctag/tag.php?tagcode='.$tagcode,1).'\',\''.$title.'\')">'.img_object($langs->trans('Tagit'),'doctag@doctag').'</a>';    
+    }
+    else {
+        list($modulepart,$file) = docTagParseUrl($url);    
         
-        $tagcode = getMD5By64('', $url);
-        $ret.='<a href="javascript:docTag_pop(\''.dol_buildpath('/doctag/tag.php?tagcode='.$tagcode,1).'\',\''.$title.'\')">'.img_object($langs->trans('Tagit'),'doctag@doctag').'</a>';
+        if(!empty($conf->$modulepart->dir_output) && !dol_is_file($conf->$modulepart->dir_output.'/'.$file) ) {
+            $ret = $title.' '.img_picto($langs->trans('Deleted'), 'editdelete');
+            
+            $tagcode = getMD5By64('', $url);
+            $ret.='<a href="javascript:docTag_pop(\''.dol_buildpath('/doctag/tag.php?tagcode='.$tagcode,1).'\',\''.$title.'\')">'.img_object($langs->trans('Tagit'),'doctag@doctag').'</a>';
+        }
+        else{
+            $ret = '<a href="'.$url.'">'.$title.'</a>';    
+        }
+        
+           
     }
-    else{
-        $ret = '<a href="'.$url.'">'.$title.'</a>';    
-    }
-	
     
+	    
 
 	return $ret;
 }

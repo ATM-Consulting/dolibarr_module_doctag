@@ -18,9 +18,13 @@
 	$tag=new TDocTag;
 	if($tag->loadByTagcode($PDOdb, $tagcode)){
 		$url = $tag->url;
+        if(empty($url) && !empty($tag64)) {
+            $url = base64_decode($tag64);
+            $tag->save($PDOdb);  
+        }
 	}
 
-    if(empty($url) && !empty($tag64)) $url = base64_decode($tag64);
+    
 
     $action = 	GETPOST('action');	
 	if($action=='SAVE') {
