@@ -58,9 +58,12 @@
 	main_area($langs->Trans('TagsOfThis'));
 	
 	
-	
+	if ((float) DOL_VERSION <= 3.7) {
 ?>	
-<script type="text/javascript" src="<?php echo dol_buildpath('/includes/jquery/js/jquery-latest.min.js',1) ?>"></script>
+	<script type="text/javascript" src="<?php echo dol_buildpath('/includes/jquery/js/jquery-latest.min.js',1) ?>"></script>
+<?php } else { ?>
+	<script type="text/javascript" src="<?php echo dol_buildpath('/includes/jquery/js/jquery.min.js',1) ?>"></script>
+<?php } ?>
 <script type="text/javascript" src="<?php echo dol_buildpath('/includes/jquery/plugins/jnotify/jquery.jnotify.min.js',1) ?>"></script>
 <script type="text/javascript" src="<?php echo dol_buildpath('/core/js/jnotify.js',1) ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo dol_buildpath('/includes/jquery/plugins/jnotify/jquery.jnotify-alt.min.css',1) ?>" />
