@@ -1,0 +1,14 @@
+Module104280Name = Tags Documenti
+Module104280Desc = Permette di gestire i TAG per i documenti
+TagsOfThis=Tags documenti
+SeparatedByComma=Separati da virgola
+TagsSaved=Informazioni salvate
+TagSearch=Ricerca per TAG o per titolo
+AbricotNotFound=Il modulo richiede il modulo gratuito Abricot
+NullTitle=Documento senza titolo
+DocumentTags=Tags documenti
+Deleted=eliminato
+TagDeleted=Tag eliminato
+DeleteIt=Sei sicuro di voler eliminare questo tag?
+delete=Elimina
+TagsList=Lista dei Tags dei documenti
