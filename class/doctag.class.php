@@ -27,8 +27,8 @@ class TDocTag extends TObjetStd {
 		
 	}
     
-    function load(&$PDOdb, $id) {
-        $res = parent::load($PDOdb, $id);
+    function load(&$PDOdb, $id, $loadChild=true) {
+    	$res = parent::load($PDOdb, $id, $loadChild);
         
         if(!empty($this->tags)) $this->TTag = explode(',', $this->tags);
         

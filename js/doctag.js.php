@@ -7,29 +7,48 @@
 ?>
 
 function docTag_set_link() {
-	$('a[href]').each(function() {
-		
-		var url = $(this).attr('href');
+<?php 
+	if(DOL_VERSION>=5) {
+		echo '$("a.documentpreview[href],a.pictopreview[href]")';
+	}
+	else {
+		echo '$("a[href]")';	
+	}
+?>.each(function() {
+		var $a = $(this);		
+		var url = $a.attr('href');
 		
 		if(url.indexOf('document.php?')!=-1 && url.indexOf('action=delete')==-1  && url.indexOf('file=')!=-1) {
-			filename = $(this).text();
-			if(filename == '') filename = $(this).find('img').attr('alt');
+			filename = $a.text();
+			if(filename == '') filename = $a.find('img').attr('alt');
 			var tag64 = window.btoa(url);
 			url = "javascript:docTag_pop('<?php echo dol_buildpath('/doctag/tag.php',1) ?>?tag64="+ tag64 +"','"+filename+"')";
-			link = '&nbsp;<a href="'+url+'" tag64="'+tag64+'"><?php echo img_object($langs->trans('Tagit'),'doctag@doctag') ?></a>';
+			console.log($a,$a.hasClass('pictopreview'),$a.hasClass('documentpreview'));
+			if($a.hasClass('pictopreview') && !$a.hasClass('documentpreview')) {
+				link = '<br /><a href="'+url+'" tag64="'+tag64+'"><?php echo img_object($langs->trans('Tagit'),'doctag@doctag').' '.$langs->trans('tag'); ?></a>';
+			}
+			else if($a.parent().is('li')) {
+				link = '';
+			}
+			else{
+				link = '&nbsp;<a href="'+url+'" tag64="'+tag64+'"><?php echo img_object($langs->trans('Tagit'),'doctag@doctag') ?></a>';
+			}
 			
-			$(this).after(link);
+			if(link.length>0) {
 			
-			$.ajax({
-			    url : "<?php echo dol_buildpath('/doctag/script/interface.php?get=tag64exist&tag64=',1) ?>"+tag64
-			}).done(function(nb_tag) {
-			    if(nb_tag>0) {
-			        
-			        $img = $('a[tag64="'+tag64+'"]').find("img");
-			        $img.attr("src","<?php echo  img_picto('', 'object_doctag_blue@doctag', '', false, 1, 1) ?>");
-			        $img.attr("title",nb_tag+" tag(s)");
-			    }
-			});
+				$(this).after(link);
+				
+				$.ajax({
+				    url : "<?php echo dol_buildpath('/doctag/script/interface.php?get=tag64exist&tag64=',1) ?>"+tag64
+				}).done(function(nb_tag) {
+				    if(nb_tag>0) {
+				        $img = $('a[tag64="'+tag64+'"]').find("img");
+				        $img.attr("src","<?php echo  img_picto('', 'object_doctag_blue@doctag', '', false, 1, 1) ?>");
+				        $img.attr("title",nb_tag+" tag(s)");
+				    }
+				});
+				
+			}
 		}
 		
 	});
