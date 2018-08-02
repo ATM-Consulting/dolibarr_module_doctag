@@ -41,7 +41,7 @@ class ActionsDoctag
     	
 		global $langs,$db;
 		
-		if (in_array('searchform',explode(':',$parameters['context']))) 
+		if (in_array('searchform',explode(':',$parameters['context'])) && DOL_VERSION <= 3.8) 
         {
         	
 			$langs->load('doctag@doctag');
@@ -59,6 +59,27 @@ class ActionsDoctag
 		
 		return 0;
     }
+	function addSearchEntry($parameters, &$object, &$action, $hookmanager) {
+		global $langs;
+		
+		if (in_array('searchform',explode(':',$parameters['context'])) && DOL_VERSION > 3.8) {
+			$search_boxvalue = $parameters['search_boxvalue'];
+			
+			$langs->load('doctag@doctag');
+			
+			$this->results = array(
+				'doctag' => array(
+					'img'=>'object_doctag'
+					,'label'=>$langs->trans('DocumentTags')
+					,'text'=>img_picto('','object_doctag@doctag').' '.$langs->trans('DocumentTags')
+					,'url'=>dol_buildpath('/doctag/tagsearch.php',1).'?keyword='.urlencode($search_boxvalue)
+					,'position'=>1000
+				)
+			);
+		}
+		
+		return 0;
+	}
     function formObjectOptions($parameters, &$object, &$action, $hookmanager) 
     {  
       	global $langs,$db;
