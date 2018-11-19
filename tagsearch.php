@@ -7,7 +7,7 @@
 	llxHeader('', $langs->Trans('TagsOfThis'));
 	
 	$tagsearch = GETPOST('tag');
-	
+	if(empty($tagsearch)) $tagsearch = GETPOST('sall');
 	?>
 	<div class="fiche">
 		<?php
