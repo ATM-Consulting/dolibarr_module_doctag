@@ -23,7 +23,6 @@ function docTag_set_link() {
 			if(filename == '') filename = $a.find('img').attr('alt');
 			var tag64 = window.btoa(url);
 			url = "javascript:docTag_pop('<?php echo dol_buildpath('/doctag/tag.php',1) ?>?tag64="+ tag64 +"','"+filename+"')";
-			console.log($a,$a.hasClass('pictopreview'),$a.hasClass('documentpreview'));
 			if($a.hasClass('pictopreview') && !$a.hasClass('documentpreview')) {
 				link = '<br /><a href="'+url+'" tag64="'+tag64+'"><?php echo img_object($langs->trans('Tagit'),'doctag@doctag').' '.$langs->trans('tag'); ?></a>';
 			}
