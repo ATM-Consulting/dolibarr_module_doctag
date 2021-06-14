@@ -1,41 +1,41 @@
 <?php
 
 	require('config.php');
-	
+
     dol_include_once('/core/lib/files.lib.php');
-    
+
 	llxHeader('', $langs->Trans('TagsOfThis'));
-	
-	$tagsearch = GETPOST('tag');
-	if(empty($tagsearch)) $tagsearch = GETPOST('sall');
+
+	$tagsearch = GETPOST('tag', 'none');
+	if(empty($tagsearch)) $tagsearch = GETPOST('sall', 'none');
 	?>
 	<div class="fiche">
 		<?php
 			print_fiche_titre($langs->Trans('TagsOfThis'));
 		?>
 			<div class="tabBar">
-				
+
 				<form name="formtag" method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 				<input class="flat" size="80" name="tag" value="<?php echo $tagsearch ?>" />
 				<input type="submit" value="<?php echo $langs->trans('Search') ?>" />
 				</form>
 	<?php
-	
+
 		if(true /*!empty($tagsearch)*/) {
-			
+
 			$ATMdb=new TPDOdb;
-			
+
 			$l=new TListviewTBS('list-tag');
-			
+
 			$sql="SELECT tagcode,url,title,description,tags
-			FROM ".MAIN_DB_PREFIX."doctag 
+			FROM ".MAIN_DB_PREFIX."doctag
 			WHERE 1 ".natural_search(array('title','tags','description'), $tagsearch)." ";
-			
+
 			$TOrder = array('title'=>'DESC');
 			if(isset($_REQUEST['orderDown']))$TOrder = array($_REQUEST['orderDown']=>'DESC');
 			if(isset($_REQUEST['orderUp']))$TOrder = array($_REQUEST['orderUp']=>'ASC');
-			
-			
+
+
 			print $l->render($ATMdb, $sql, array(
 				'limit'=>array(
 					'page'=>(isset($_REQUEST['page']) ? $_REQUEST['page'] : 1)
@@ -61,49 +61,49 @@
 					'title'=>'_showMyDoc("@url@", "@val@","@tagcode@")'
 				)
 				,'orderBy'=>$TOrder));
-			
-			
+
+
 		}
-	
-	
+
+
 	$form = new TFormCore($_SERVER['PHP_SELF'],'formscore','POST');
-	
+
 	echo $form->hidden('action', 'save_etape');
-	
+
 	?></div>
 	</div>
 	<?php
-	
+
 	llxFooter();
-	
+
 function _showMyDoc($url, $title, $tagcode) {
-global $langs,$conf;	
-	
+global $langs,$conf;
+
 	if(empty($title)) {
 		$title=$langs->trans('NullTitle');
 	}
-	
+
     if(empty($url)){
        $ret = $title.' '.img_picto($langs->trans('Deleted'), 'editdelete');
-       $ret .='<a href="javascript:docTag_pop(\''.dol_buildpath('/doctag/tag.php?tagcode='.$tagcode,1).'\',\''.$title.'\')">'.img_object($langs->trans('Tagit'),'doctag@doctag').'</a>';    
+       $ret .='<a href="javascript:docTag_pop(\''.dol_buildpath('/doctag/tag.php?tagcode='.$tagcode,1).'\',\''.$title.'\')">'.img_object($langs->trans('Tagit'),'doctag@doctag').'</a>';
     }
     else {
-        list($modulepart,$file) = docTagParseUrl($url);    
-        
+        list($modulepart,$file) = docTagParseUrl($url);
+
         if(!empty($conf->$modulepart->dir_output) && !dol_is_file($conf->$modulepart->dir_output.'/'.$file) ) {
             $ret = $title.' '.img_picto($langs->trans('Deleted'), 'editdelete');
-            
+
             $tagcode = getMD5By64('', $url);
             $ret.='<a href="javascript:docTag_pop(\''.dol_buildpath('/doctag/tag.php?tagcode='.$tagcode,1).'\',\''.$title.'\')">'.img_object($langs->trans('Tagit'),'doctag@doctag').'</a>';
         }
         else{
-            $ret = '<a href="'.$url.'">'.$title.'</a>';    
+            $ret = '<a href="'.$url.'">'.$title.'</a>';
         }
-        
-           
+
+
     }
-    
-	    
+
+
 
 	return $ret;
 }
