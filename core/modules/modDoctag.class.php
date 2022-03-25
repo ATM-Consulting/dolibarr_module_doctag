@@ -219,7 +219,7 @@ class modDoctag extends DolibarrModules
         $r = 0;
         // Example:
 
-        $this->boxes[$r][1] = "doctag_box@doctag";
+//        $this->boxes[$r][1] = "doctag_box@doctag";
         $r ++;
         /*
           $this->boxes[$r][1] = "myboxb.php";
